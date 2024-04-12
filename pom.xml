@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.java</groupId>
-  <artifactId>GFGDSA_1</artifactId>
+  <artifactId>java-8-practice</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>GFGDSA_1</name>
+  <name>java-8-practice</name>
   <url>http://maven.apache.org</url>
 
   <properties>

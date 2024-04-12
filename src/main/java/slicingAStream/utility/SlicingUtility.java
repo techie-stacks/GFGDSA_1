@@ -1,9 +1,11 @@
 package slicingAStream.utility;
 
 import sreamPostmortem.constant.GlobalConstant;
+import sreamPostmortem.constant.Type;
 import sreamPostmortem.model.Dish;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,15 +19,17 @@ public class SlicingUtility {
     * Instead of filter we can stop the iteration,
     * if we found calories less than 320 using @takeWhile(),
     * With a small list this may not seems like a huge benefit ,
-    *  but it can become useful if you work with potentially large stream of elements
-    *
+    * but it can become useful if you work with potentially large stream of elements
     * @takeWhile here rescue for us , It lets you slice any stream using a predicate !!!
     *
     * */
 
     public static List<Dish> getDishUsingFilter(List<Dish> specialMenu){
         if(!specialMenu.isEmpty()){
-           return specialMenu.stream().filter(dish -> dish.getCalories() < GlobalConstant.THREE_HUNDRED_20.getNumbers())
+           return specialMenu.stream().filter(dish -> {
+               System.out.println("Filtering menu less than 320 :  " + dish.getCalories());
+               return   dish.getCalories() < 320;
+                           })
                    .collect(Collectors.toList());
         }
         return new ArrayList<>();
@@ -55,5 +59,29 @@ public class SlicingUtility {
         return new ArrayList<>();
     }
 
+    public static List<Dish> getDishUsingTruncatingLimit(List<Dish> dishes){
+        if(!dishes.isEmpty()){
+            return dishes.stream()
+                    .filter(dish -> dish.getCalories() > GlobalConstant.THREE_HUNDRED.getNumbers())
+                    .limit(3).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
 
+   public static List<Dish> getDishUsingSkippingElementSkip(List<Dish> dishes){
+        if (!dishes.isEmpty()){
+            return dishes.stream()
+                    .filter(dish -> dish.getCalories() > GlobalConstant.THREE_HUNDRED.getNumbers())
+                    .sorted(Comparator.comparing(Dish::getCalories))
+                    .skip(2)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+   }
+
+   public static List<Dish> getFirstTwoMeatDishes (List<Dish> dishes){
+        return dishes.stream().filter(
+                dish -> dish.getType() == Type.MEAT
+        ).limit(2).collect(Collectors.toList());
+   }
 }
